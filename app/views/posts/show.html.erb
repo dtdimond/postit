@@ -1,10 +1,36 @@
+<!-- Post Category badges -->
 <p>
   <%= render @post.categories %>
 </p>
 
-<%= render "shared/content_title", title: "Posts" %>
-
+<!-- Page title and post description -->
+<%= render "shared/content_title", title: link_to(@post.title, fix_url(@post.url)) %>
 <p>
   <%= @post.description %>
 </p>
 <hr/>
+
+<!-- Form to add comment -->
+<%= form_for [@post, @comment] do |f| %>
+  <%= render "shared/error_message", obj: @comment %>
+  <div class="control-group">
+    <%= f.label :body, "Add new comment: ", class: "label label-info" %> 
+    <br/>
+    <%= f.text_area :body, rows: 3, class: "span4" %>
+  </div>
+
+  <%= f.submit "Submit", class: "btn btn-primary" %>
+<% end %>
+<br/>
+
+<!-- Display all comments -->
+<h4>Comments</h4>
+<% @post.comments.each do |comment| %>
+  <div class="well">
+    <legend class="creator">
+      <%= link_to comment.user.username, ""%>
+      <%= "at " + format_date_time(comment.created_at) %>
+    </legend>
+    <%= comment.body %>
+  </div>
+<% end %>
