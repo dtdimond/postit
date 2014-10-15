@@ -11,17 +11,19 @@
 <hr/>
 
 <!-- Form to add comment -->
-<%= form_for [@post, @comment] do |f| %>
-  <%= render "shared/error_message", obj: @comment %>
-  <div class="control-group">
-    <%= f.label :body, "Add new comment: ", class: "label label-info" %> 
-    <br/>
-    <%= f.text_area :body, rows: 3, class: "span4" %>
-  </div>
+<% if logged_in? %>
+  <%= form_for [@post, @comment] do |f| %>
+    <%= render "shared/error_message", obj: @comment %>
+    <div class="control-group">
+      <%= f.label :body, "Add new comment: ", class: "label label-info" %> 
+      <br/>
+      <%= f.text_area :body, rows: 3, class: "span4" %>
+    </div>
 
-  <%= f.submit "Submit", class: "btn btn-primary" %>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
+  <% end %>
+  <br/>
 <% end %>
-<br/>
 
 <!-- Display all comments -->
 <h4>Comments</h4>

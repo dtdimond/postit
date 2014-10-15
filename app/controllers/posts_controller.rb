@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :find_post, only: [:show,:edit,:update]
+  before_action :require_user, except: [:show, :index]
 
   def index
     @posts = Post.all
@@ -14,7 +15,8 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params.merge(user_id: 1))
+    @post = Post.new(post_params)
+    @post.user = current_user
 
     if @post.save
       flash[:notice] = "Post was successfully submitted."
