@@ -3,18 +3,15 @@
 <div class="well">
   <%= form_for @user do |f| %>
     <div class="control-group">
-      <%= f.label :username, class: "label label-info" %>
-      <br/>
+      <%= f.label :username %>
       <%= f.text_field :username%>
     </div> 
 
     <div class="control-group">
-      <%= f.label :password, class: "label label-info" %>
-      <br/>
-      <%= f.text_field :password %>
+      <%= f.label :password %>
+      <%= f.password_field :password %>
     </div> 
 
-    <br/>
     <%= f.submit @user.new_record? ? :Register : :Update, class: "btn btn-primary" %>
   <% end %>
 </div>

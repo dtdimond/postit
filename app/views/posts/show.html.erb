@@ -12,27 +12,12 @@
 
 <!-- Form to add comment -->
 <% if logged_in? %>
-  <%= form_for [@post, @comment] do |f| %>
-    <%= render "shared/error_message", obj: @comment %>
-    <div class="control-group">
-      <%= f.label :body, "Add new comment: ", class: "label label-info" %> 
-      <br/>
-      <%= f.text_area :body, rows: 3, class: "span4" %>
-    </div>
-
-    <%= f.submit "Submit", class: "btn btn-primary" %>
-  <% end %>
+  <%= render "comments/form", post: @post, comment: @comment %>
   <br/>
 <% end %>
 
 <!-- Display all comments -->
 <h4>Comments</h4>
 <% @post.comments.each do |comment| %>
-  <div class="well">
-    <legend class="creator">
-      <%= link_to comment.user.username, ""%>
-      <%= "at " + format_date_time(comment.created_at) %>
-    </legend>
-    <%= comment.body %>
-  </div>
+  <%= render "comments/comment", comment: comment %>
 <% end %>

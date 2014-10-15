@@ -1,5 +1,7 @@
 class CommentsController < ApplicationController
+  before_action :set_post_and_comment, only: [:edit, :update]
   before_action :require_user
+#  before_action require_ownership(id: @comment.user.id), only: [:edit, :update]
 
   def create
     @post = Post.find(params[:post_id])
@@ -14,4 +16,23 @@ class CommentsController < ApplicationController
     end
   end
 
+  def edit
+    require_ownership(id: @comment.user.id)
+  end
+
+  def update
+    require_ownership(id: @comment.user.id)
+
+    if @comment.update(params.require(:comment).permit(:body, :user_id))
+      flash[:notice] = "Comment updated."
+      redirect_to post_path(@post) 
+    else
+      render :edit
+    end
+  end
+
+  def set_post_and_comment
+    @post = Post.find(params[:post_id])
+    @comment = @post.comments.find(params[:id])
+  end
 end

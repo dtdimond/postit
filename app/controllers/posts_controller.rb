@@ -27,9 +27,12 @@ class PostsController < ApplicationController
   end
 
   def edit
+    require_ownership(id: @post.user.id)
   end
 
   def update
+    require_ownership(id: @post.user.id)
+
     if @post.update(post_params)
       flash[:notice] = "Post was successfully updated."
       redirect_to posts_path

@@ -21,4 +21,11 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
+
+  def require_ownership(id)
+    if !logged_in? || !(current_user.id == id)
+      flash[:error] = "You're not allowed to do that."
+      redirect_to root_path
+    end
+  end
 end
