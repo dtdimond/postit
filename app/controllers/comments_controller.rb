@@ -8,10 +8,16 @@ class CommentsController < ApplicationController
     @comment = @post.comments.build(params.require(:comment).permit(:body))
     @comment.user = current_user
 
-    if @comment.save
+    if params[:body].nil?
+      @post.comments.delete(@comment)
+      @comment.errors.add(:body, "cannot be blank.")
+    end
+
+    if @comment.save 
       flash[:notice] = "Comment was successfully posted."
       redirect_to post_path(@post)
     else
+      #flash[:error] = "Comment cannot be blank." if params[:body].nil?
       render "posts/show" 
     end
   end
