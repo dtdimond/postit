@@ -1,0 +1,28 @@
+<!-- Partial to display the vote (up/down arrows) section next to posts and comments -->
+<!-- Note: "obj" corresponds to either a @post or @comment object -->
+
+<% if logged_in? %>
+  <div class="span0 well text-center">
+    <% if obj.class == Post %>
+      <%= link_to vote_post_path(obj, vote: true), method: :post do %>
+        <i class="icon-arrow-up"></i>
+      <% end %>
+    <% elsif obj.class == Comment %>
+      <%= link_to vote_post_comment_path(obj.post, obj, vote: true), method: :post do %>
+        <i class="icon-arrow-up"></i>
+      <% end %>
+    <% end %>
+    </br>
+    <%= obj.total_votes %>
+    </br>
+    <% if obj.class == Post %>
+      <%= link_to vote_post_path(obj, vote: false), method: :post do %>
+        <i class="icon-arrow-down"></i>
+      <% end %>
+    <% elsif obj.class == Comment %>
+      <%= link_to vote_post_comment_path(obj.post, obj, vote: false), method: :post do %>
+        <i class="icon-arrow-down"></i>
+      <% end %>
+    <% end %>
+   </div>
+<% end %>

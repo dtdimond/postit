@@ -1,16 +1,22 @@
 <% show_post ||= false %>
 
-<div class="well">
-  <legend class="creator">
-    <%= link_to comment.user.username, user_path(comment.user) %>
-    <% if show_post %>
-      on <%= link_to comment.post.title, post_path(comment.post) %>
-    <% end %>
-    <%= "at " + format_date_time(comment.created_at) %>
-    <% if logged_in? && comment.user.id == current_user.id %>
-      (<%= link_to "edit", edit_post_comment_path(comment.post, comment) %>)
-    <% end %>
-  </legend>
-  <%= comment.body %>
-</div>
+<div class="row">
+  <!-- Display up/down vote area -->
+  <%= render "votes/vote", obj: comment %>
 
+
+  <!-- Display comment info -->
+  <div class="span10 well">
+    <legend class="creator">
+      <%= link_to comment.user.username, user_path(comment.user) %>
+      <% if show_post %>
+        on <%= link_to comment.post.title, post_path(comment.post) %>
+      <% end %>
+      <%= "at " + format_date_time(comment.created_at) %>
+      <% if logged_in? && comment.user.id == current_user.id %>
+        (<%= link_to "edit", edit_post_comment_path(comment.post, comment) %>)
+      <% end %>
+    </legend>
+    <%= comment.body %>
+  </div>
+</div>

@@ -18,6 +18,6 @@
 
 <!-- Display all comments -->
 <h4>Comments</h4>
-<% @post.comments.each do |comment| %>
+<% @post.comments.sort_by{|x| x.total_votes}.reverse.each do |comment| %>
   <%= render "comments/comment", comment: comment %>
 <% end %>

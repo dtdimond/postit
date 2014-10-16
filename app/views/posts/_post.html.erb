@@ -1,5 +1,9 @@
 <div class="row">
-  <div class="well">
+  <!-- Display up/down vote area -->
+  <%= render "votes/vote", obj: post %>
+
+  <!-- Display post info --> 
+  <div class="span10 well">
     <%= render post.categories %>
     <h4><%= link_to post.title, fix_url(post.url) %></h4> 
     <p><%= post.description %></p>
