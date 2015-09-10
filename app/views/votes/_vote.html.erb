@@ -3,24 +3,32 @@
 
 <% if logged_in? %>
   <div class="span0 well text-center">
+
+    <!-- Upvote -->
     <% if obj.class == Post %>
-      <%= link_to vote_post_path(obj, vote: true), method: :post do %>
+      <%= link_to vote_post_path(obj, vote: true), method: :post, remote: true do %>
         <i class="icon-arrow-up"></i>
       <% end %>
     <% elsif obj.class == Comment %>
-      <%= link_to vote_post_comment_path(obj.post, obj, vote: true), method: :post do %>
+      <%= link_to vote_post_comment_path(obj.post, obj, vote: true), method: :post, remote: true do %>
         <i class="icon-arrow-up"></i>
       <% end %>
     <% end %>
+
+    <!-- Num votes -->
     </br>
-    <%= obj.total_votes %>
+      <span id='<%=obj.class%>_<%=obj.id%>_votes'>
+        <%= obj.total_votes%> votes
+      </span>
     </br>
+
+    <!-- Downvote -->
     <% if obj.class == Post %>
-      <%= link_to vote_post_path(obj, vote: false), method: :post do %>
+      <%= link_to vote_post_path(obj, vote: false), method: :post, remote: true do %>
         <i class="icon-arrow-down"></i>
       <% end %>
     <% elsif obj.class == Comment %>
-      <%= link_to vote_post_comment_path(obj.post, obj, vote: false), method: :post do %>
+      <%= link_to vote_post_comment_path(obj.post, obj, vote: false), method: :post, remote: true do %>
         <i class="icon-arrow-down"></i>
       <% end %>
     <% end %>
