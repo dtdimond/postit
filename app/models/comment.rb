@@ -5,6 +5,8 @@ class Comment < ActiveRecord::Base
 
   validates :body, presence: true, allow_blank: false
 
+  after_validation :generate_slug
+
   def total_votes
     up_boats - down_boats
   end
@@ -15,5 +17,13 @@ class Comment < ActiveRecord::Base
 
   def down_boats
     self.votes.where(vote: false).size
+  end
+
+  def generate_slug
+    self.slug = self.post.title.gsub(" ","-").downcase + "-comment-" + self.body.split.first.downcase
+  end
+
+  def to_param
+    self.slug
   end
 end

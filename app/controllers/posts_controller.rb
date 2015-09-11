@@ -42,11 +42,11 @@ class PostsController < ApplicationController
   end
 
   def vote
-    vote = Vote.create(voteable: @post, user: current_user, vote: params[:vote])
+    @vote = Vote.create(voteable: @post, user: current_user, vote: params[:vote])
 
     respond_to do |format|
       format.html do
-        if !vote.valid?
+        if !@vote.valid?
           flash[:error] = "You can only vote once. All votes are final!"
         end
         redirect_to :back
@@ -61,6 +61,7 @@ class PostsController < ApplicationController
   end
 
   def find_post
-    @post = Post.find(params[:id]) 
+    @post = Post.find_by(slug: params[:id]) 
+    binding.pry
   end
 end

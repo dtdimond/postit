@@ -1,10 +1,9 @@
 class CommentsController < ApplicationController
   before_action :set_post_and_comment, only: [:edit, :update, :vote]
   before_action :require_user
-#  before_action require_ownership(id: @comment.user.id), only: [:edit, :update]
 
   def create
-    @post = Post.find(params[:post_id])
+    @post = Post.find_by(slug: params[:post_id])
     @comment = @post.comments.build(params.require(:comment).permit(:body))
     @comment.user = current_user
 
@@ -38,11 +37,11 @@ class CommentsController < ApplicationController
   end
 
   def vote
-    vote = Vote.create(voteable: @comment, user: current_user, vote: params[:vote])
+    @vote = Vote.create(voteable: @comment, user: current_user, vote: params[:vote])
 
     respond_to do |format|
       format.html do
-        if !vote.valid?
+        if !@vote.valid?
           flash[:error] = "You can only vote once. All votes are final!"
         end
         redirect_to :back
@@ -54,7 +53,7 @@ class CommentsController < ApplicationController
   end
 
   def set_post_and_comment
-    @post = Post.find(params[:post_id])
-    @comment = @post.comments.find(params[:id])
+    @post = Post.find_by(slug: params[:post_id])
+    @comment = @post.comments.find_by(slug: params[:id])
   end
 end

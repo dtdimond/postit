@@ -7,7 +7,7 @@ class Post < ActiveRecord::Base
 
   validates :title, :url, :description, presence: true
 
-  after_save :generate_slug
+  after_validation :generate_slug
 
   def total_votes
     up_boats - down_boats
@@ -23,5 +23,9 @@ class Post < ActiveRecord::Base
 
   def generate_slug
     self.slug = self.title.gsub(" ","-").downcase
+  end
+
+  def to_param
+    self.slug
   end
 end
