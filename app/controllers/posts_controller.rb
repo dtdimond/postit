@@ -62,6 +62,5 @@ class PostsController < ApplicationController
 
   def find_post
     @post = Post.find_by(slug: params[:id]) 
-    binding.pry
   end
 end

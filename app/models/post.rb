@@ -1,31 +1,13 @@
 class Post < ActiveRecord::Base
+  include Voteable
+  include Sluggable
+
   belongs_to :user
   has_many :comments
   has_many :post_categories
   has_many :categories, through: :post_categories
-  has_many :votes, as: :voteable
 
   validates :title, :url, :description, presence: true
+  sluggable_column(:title)
 
-  after_validation :generate_slug
-
-  def total_votes
-    up_boats - down_boats
-  end
-
-  def up_boats
-    self.votes.where(vote: true).size
-  end
-
-  def down_boats
-    self.votes.where(vote: false).size
-  end
-
-  def generate_slug
-    self.slug = self.title.gsub(" ","-").downcase
-  end
-
-  def to_param
-    self.slug
-  end
 end
